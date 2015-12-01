@@ -62,6 +62,13 @@ class ArticleMixin(models.Model):
     excerpt = RichTextField(blank=True, verbose_name=_('Excerpt'))
     subtitle = models.CharField(max_length=255, null=True, blank=True)
     styles_override = models.TextField(null=True, blank=True)
+    header_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     class Meta:
         abstract = True
@@ -75,6 +82,7 @@ BASE_ARTICLE_CONTENT_PANELS = [
     ], "Author and date"),
     SnippetChooserPanel('category', Category),
     FieldPanel('excerpt'),
+    ImageChooserPanel('header_image'),
 ]
 
 
@@ -84,17 +92,10 @@ class Article(Page, ArticleMixin):
     """
     tags = ClusterTaggableManager(through=ArticleTag, blank=True)
     body = RichTextField(blank=True)
-    header_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
+
 
 Article.content_panels = BASE_ARTICLE_CONTENT_PANELS + [
     FieldPanel('tags'),
-    ImageChooserPanel('header_image'),
     FieldPanel('body'),
 ]
 
