@@ -24,12 +24,12 @@ from modelcluster.tags import ClusterTaggableManager
 from .blocks import CommonEditingBlock
 
 
-class ArticleTag(TaggedItemBase):
-    content_object = ParentalKey('Article', null=True, blank=True, related_name="%(app_label)s_%(class)s_taggeditems")
+class ArticlePageTag(TaggedItemBase):
+    content_object = ParentalKey('ArticlePage', null=True, blank=True, related_name="%(app_label)s_%(class)s_taggeditems")
 
 
-class BlockArticleTag(TaggedItemBase):
-    content_object = ParentalKey('BlockArticle', null=True, blank=True, related_name="%(app_label)s_%(class)s_taggeditems")
+class BlockArticlePageTag(TaggedItemBase):
+    content_object = ParentalKey('BlockArticlePage', null=True, blank=True, related_name="%(app_label)s_%(class)s_taggeditems")
 
 
 class Category(models.Model):
@@ -86,46 +86,46 @@ BASE_ARTICLE_CONTENT_PANELS = [
 ]
 
 
-class Article(Page, ArticleMixin):
+class ArticlePage(Page, ArticleMixin):
     """
     Basic article with a rich text editor for body.
     """
-    tags = ClusterTaggableManager(through=ArticleTag, blank=True)
+    tags = ClusterTaggableManager(through=ArticlePageTag, blank=True)
     body = RichTextField(blank=True)
 
 
-Article.content_panels = BASE_ARTICLE_CONTENT_PANELS + [
+ArticlePage.content_panels = BASE_ARTICLE_CONTENT_PANELS + [
     FieldPanel('tags'),
     FieldPanel('body'),
 ]
 
-Article.settings_panels = Page.settings_panels + [
+ArticlePage.settings_panels = Page.settings_panels + [
     FieldPanel('styles_override', widget=forms.widgets.Textarea({'rows':10})),
 ]
 
-Article.search_fields = Page.search_fields + (
+ArticlePage.search_fields = Page.search_fields + (
     index.SearchField('subtitle'),
     index.SearchField('body'),
 )
 
-class BlockArticle(Page, ArticleMixin):
+class BlockArticlePage(Page, ArticleMixin):
     """
-    Article built with multiple types of blocks.
+    ArticlePage built with multiple types of blocks.
     Blocks can be repeated and/or combined in any way.
     """
-    tags = ClusterTaggableManager(through=BlockArticleTag, blank=True)
+    tags = ClusterTaggableManager(through=BlockArticlePageTag, blank=True)
     body = StreamField(CommonEditingBlock())
 
-BlockArticle.content_panels = BASE_ARTICLE_CONTENT_PANELS + [
+BlockArticlePage.content_panels = BASE_ARTICLE_CONTENT_PANELS + [
     FieldPanel('tags'),
     StreamFieldPanel('body'),
 ]
 
-BlockArticle.settings_panels = Page.settings_panels + [
+BlockArticlePage.settings_panels = Page.settings_panels + [
     FieldPanel('styles_override'),
 ]
 
-BlockArticle.search_fields = Page.search_fields + (
+BlockArticlePage.search_fields = Page.search_fields + (
     index.SearchField('subtitle'),
     index.SearchField('body'),
 )
