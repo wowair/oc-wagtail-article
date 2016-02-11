@@ -19,16 +19,16 @@ class Migration(migrations.Migration):
         migrations.RenameModel('BlockArticle','BlockArticlePage'),
         migrations.RenameModel('BlockArticleTag','BlockArticlePageTag'),
         migrations.RunSQL(
-            "UPDATE django_content_type set model = 'articlepagetag' where id = 32",
-            "UPDATE django_content_type set model = 'articletag' where id = 32"),
+            "UPDATE django_content_type set model = 'articlepagetag' where model = 'articletag'",
+            "UPDATE django_content_type set model = 'articletag' where model = 'articlepagetag'"),
         migrations.RunSQL(
-            "UPDATE django_content_type set model = 'blockarticlepagetag' where id = 33",
-            "UPDATE django_content_type set model = 'blockarticletag' where id = 33"),
+            "UPDATE django_content_type set model = 'blockarticlepagetag' where model = 'blockarticletag'",
+            "UPDATE django_content_type set model = 'blockarticletag' where model = 'blockarticlepagetag'"),
         migrations.RunSQL(
-            "UPDATE django_content_type set model = 'articlepage' where id = 35",
-            "UPDATE django_content_type set model = 'article' where id = 35"),
+            "UPDATE django_content_type set model = 'articlepage' where model = 'article'",
+            "UPDATE django_content_type set model = 'article' where model = 'articlepage'"),
         migrations.RunSQL(
-            "UPDATE django_content_type set model = 'blockarticlepage' where id = 36",
-            "UPDATE django_content_type set model = 'blockarticle' where id = 36"),
+            "UPDATE django_content_type set model = 'blockarticlepage' where model = 'blockarticle'",
+            "UPDATE django_content_type set model = 'blockarticle' where model = 'blockarticlepage'"),
     ]
 
