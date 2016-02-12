@@ -65,6 +65,27 @@ class Migration(migrations.Migration):
                 ('color', models.CharField(max_length=255)),
             ],
         ),
+        migrations.CreateModel(
+            name='ArticlePageTag',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('tag', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='oc_article_articletag_items', to='taggit.Tag')),
+            ],
+            options={
+                'abstract': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='BlockArticlePageTag',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('content_object', modelcluster.fields.ParentalKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='oc_article_blockarticlepagetag_taggeditems', to='oc_article.BlockArticlePage')),
+                ('tag', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='oc_article_blockarticletag_items', to='taggit.Tag')),
+            ],
+            options={
+                'abstract': False,
+            },
+        ),
         migrations.AlterModelOptions(
             name='category',
             options={'verbose_name': 'Category', 'verbose_name_plural': 'Categories'},
@@ -104,16 +125,6 @@ class Migration(migrations.Migration):
             name='header_image',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image'),
         ),
-        migrations.CreateModel(
-            name='ArticlePageTag',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('tag', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='oc_article_articletag_items', to='taggit.Tag')),
-            ],
-            options={
-                'abstract': False,
-            },
-        ),
         migrations.AlterField(
             model_name='articlepage',
             name='author',
@@ -123,17 +134,6 @@ class Migration(migrations.Migration):
             model_name='blockarticlepage',
             name='author',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.CreateModel(
-            name='BlockArticlePageTag',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content_object', modelcluster.fields.ParentalKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='oc_article_blockarticlepagetag_taggeditems', to='oc_article.BlockArticlePage')),
-                ('tag', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='oc_article_blockarticletag_items', to='taggit.Tag')),
-            ],
-            options={
-                'abstract': False,
-            },
         ),
         migrations.AddField(
             model_name='articlepagetag',
